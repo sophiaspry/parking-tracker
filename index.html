@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parking Tracker</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,9 +14,8 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #619EC9, #4a7ba7);
-            transition: background 0.5s ease;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f2f5, #e1e5e9);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -23,23 +24,28 @@
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.95);
+            background: linear-gradient(135deg, #619EC9, #4a7ba7);
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
             text-align: center;
             max-width: 400px;
             width: 100%;
+            transition: all 0.5s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         h1 {
-            color: #333;
+            color: white;
             margin-bottom: 10px;
-            font-size: 24px;
+            font-size: 28px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: -0.5px;
         }
 
         .status {
-            color: #666;
+            color: rgba(255, 255, 255, 0.9);
             margin-bottom: 30px;
             font-size: 16px;
             font-weight: 500;
@@ -50,20 +56,24 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.2);
             padding: 15px 20px;
             border-radius: 15px;
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .roommate-section:hover {
-            background: #e9ecef;
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
         }
 
         .roommate-label {
             font-weight: 600;
-            color: #333;
+            color: white;
             font-size: 16px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .slider-container {
@@ -113,28 +123,31 @@
         }
 
         .parking-info {
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.2);
             padding: 15px;
             border-radius: 10px;
             margin-top: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .spots-used {
             font-size: 18px;
-            font-weight: bold;
-            color: #333;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
-        /* Background color classes */
-        .bg-empty {
+        /* Container color classes */
+        .container.bg-empty {
             background: linear-gradient(135deg, #619EC9, #4a7ba7);
         }
 
-        .bg-one {
+        .container.bg-one {
             background: linear-gradient(135deg, #8D7CC4, #7565b8);
         }
 
-        .bg-full {
+        .container.bg-full {
             background: linear-gradient(135deg, #B03737, #942d2d);
         }
 
@@ -155,8 +168,8 @@
         }
     </style>
 </head>
-<body class="bg-empty">
-    <div class="container">
+<body>
+    <div class="container bg-empty" id="container">
         <h1>Parking Tracker</h1>
         <div class="status" id="status">0 of 2 spots occupied</div>
         
@@ -259,7 +272,7 @@
 
         function updateUI() {
             const occupiedCount = Object.values(roommates).filter(Boolean).length;
-            const body = document.body;
+            const container = document.getElementById('container');
             const status = document.getElementById('status');
             const spotsUsed = document.getElementById('spotsUsed');
             
@@ -267,14 +280,14 @@
             status.textContent = `${occupiedCount} of 2 spots occupied`;
             spotsUsed.textContent = `Available Spots: ${2 - occupiedCount}`;
             
-            // Update background color
-            body.className = '';
+            // Update container color
+            container.className = 'container';
             if (occupiedCount === 0) {
-                body.classList.add('bg-empty');
+                container.classList.add('bg-empty');
             } else if (occupiedCount === 1) {
-                body.classList.add('bg-one');
+                container.classList.add('bg-one');
             } else {
-                body.classList.add('bg-full');
+                container.classList.add('bg-full');
             }
             
             // Update slider states and disable/enable as needed
